@@ -1,0 +1,131 @@
+namespace SpriteKind {
+    export const Opvask = SpriteKind.create()
+    export const food2 = SpriteKind.create()
+    export const opvask3 = SpriteKind.create()
+    export const opvask2 = SpriteKind.create()
+}
+function Skespawn () {
+    Ske = sprites.create(assets.image`myImage3`, SpriteKind.Opvask)
+    tiles.placeOnRandomTile(Ske, sprites.dungeon.floorLight2)
+    Ske.setVelocity(50, 50)
+    Ske.setBounceOnWall(true)
+}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Opvask, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+    info.changeScoreBy(1)
+})
+info.onCountdownEnd(function () {
+    game.gameOver(true)
+    game.setGameOverEffect(true, effects.confetti)
+})
+sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSprite) {
+    game.gameOver(false)
+})
+function Gaffelspawn () {
+    Gaffel = sprites.create(assets.image`myImage2`, SpriteKind.Opvask)
+    Gaffel.setVelocity(50, 50)
+    tiles.placeOnRandomTile(Gaffel, sprites.dungeon.floorLight2)
+    Gaffel.setBounceOnWall(true)
+}
+function Tallerkenspawn () {
+    Tallerken = sprites.create(img`
+        .................................................
+        .................................................
+        .................................................
+        .................................................
+        ...................111111111111ddd...............
+        ..............111111111111111111111d.............
+        .............11ddddddddddddddddddd111d...........
+        ...........11dddd111111111111111dddd111..........
+        ..........1ddd111111111111111111111ddd1..........
+        ..........dd1111111111111111111111111dd..........
+        ..........d111111111111111111111111111d..........
+        ..........d111111111111111111111111111d..........
+        ..........d111111111111111111111111111d..........
+        ..........d111111111111111111111111111d..........
+        ..........dd1111111111111111111111111dd..........
+        ..........ddd11111111111111111111111ddd..........
+        ..........dbbdd1111111111111111111dddb...........
+        ...........1dbbdd111111111111111dddbb............
+        .............1dbbbbbbdddddddddddddd..............
+        .................1dbbbbbbbbbddd1.................
+        ..........................1......................
+        .................................................
+        .................................................
+        .................................................
+        `, SpriteKind.Opvask)
+    tiles.placeOnRandomTile(Tallerken, sprites.dungeon.floorLight2)
+    Tallerken.setVelocity(50, 50)
+    Tallerken.setBounceOnWall(true)
+}
+let Tallerken: Sprite = null
+let Gaffel: Sprite = null
+let Ske: Sprite = null
+info.startCountdown(60)
+let mySprite = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
+    . . . 1 2 . 8 . 2 . 8 . 1 . . . 
+    . . . 1 8 . 2 . 8 . . 2 1 . . . 
+    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
+    . . . 1 . d . d . d . . 1 . . . 
+    . . . 1 d d d d d d d d 1 . . . 
+    . . . 1 . d . d . d . . 1 . . . 
+    . . . 1 d d d d d d d d 1 . . . 
+    . . . 1 . d . d . d . . 1 . . . 
+    . . . 1 d d d d d d d d 1 . . . 
+    . . . 1 1 1 1 1 1 1 1 1 1 . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Player)
+mySprite.setPosition(56, 44)
+controller.moveSprite(mySprite, 100, 100)
+scene.cameraFollowSprite(mySprite)
+tiles.setCurrentTilemap(tilemap`level1`)
+let computer = sprites.create(img`
+    . . . 2 2 2 2 2 2 2 2 2 . . . . 
+    . . 2 2 d d d d d d d 2 2 . . . 
+    . 2 2 1 1 1 1 1 1 1 1 1 2 2 . . 
+    . 2 d b c c c c c c c b d 2 . . 
+    . 2 d c 6 6 6 6 6 6 6 c d 2 . . 
+    . 2 d c 6 d 6 6 6 6 6 c d 2 . . 
+    . 2 d c 6 6 6 6 6 6 6 c d 2 . . 
+    . 2 d c 6 6 6 6 6 6 6 c d 2 . . 
+    . 2 d c 6 6 6 6 6 6 6 c d 2 . . 
+    . 2 d c c c c c c c c c d 2 . . 
+    . 2 b b b b b b b b b b b 2 . . 
+    2 2 c c c c c c c c c c c 2 2 . 
+    2 1 d d d d d d d d d d d 1 2 . 
+    2 1 d 1 1 d 1 1 d 1 1 d 1 1 2 . 
+    2 b b b b b b b b b b b b b 2 . 
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 
+    `, SpriteKind.Enemy)
+tiles.placeOnRandomTile(computer, sprites.dungeon.floorLight2)
+computer.follow(mySprite, 30)
+let sofa = sprites.create(img`
+    ...222222222222222222...
+    ..22dddddddddddddddd22..
+    .22dddddddddddddddddd22.
+    .2ddbbbbbbbbbbbbbbbbdd2.
+    .2dbbbbbbbbbbbbbbbbbbd2.
+    .2dbbbbbbbbbbbbbbbbbbd2.
+    22bbccccccccccccccccbb22
+    2ddcbddddddddddddddbcdd2
+    2ddcddddddddddddddddcdd2
+    2ddcddddddddddddddddcdd2
+    2ddcddddddddddddddddcdd2
+    2bdcddddddddddddddddcdb2
+    2cbbbbbbbbbbbbbbbbbbbbc2
+    2cbbbbbbbbbbbbbbbbbbbbc2
+    222cc22222222222222cc222
+    ..2222............2222..
+    `, SpriteKind.Enemy)
+sofa.follow(mySprite, 35)
+tiles.placeOnRandomTile(sofa, sprites.dungeon.floorLight2)
+game.onUpdateInterval(5000, function () {
+    Gaffelspawn()
+    Skespawn()
+    Tallerkenspawn()
+})
